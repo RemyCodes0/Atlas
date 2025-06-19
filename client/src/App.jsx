@@ -16,11 +16,15 @@ import UserProfiles from './pages/UserProfiles'
 import CurationSystem from './pages/CurationSystem'
 import NetworkManagement from './pages/NetworkManagement'
 import Profile from './pages/Profile'
+import { Toaster } from "sonner"
+
 
 function App() {
 
   return (
-  <Routes>
+ 
+  <>
+   <Routes>
    <Route path='/register' element={<Signup />}/>
     <Route path='/login' element={<Login/>}/>
     <Route path='/dashboard' element={<Dashboard/>}/>
@@ -38,6 +42,8 @@ function App() {
      <Route path='/profile' element={<Profile/>}/> 
  
   </Routes>
+  <Toaster richColors position='top-right'/>
+  </>
   )
 }
 

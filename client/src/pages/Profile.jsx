@@ -7,9 +7,9 @@ const Profile = () => {
   const [editMode, setEditMode] = useState({})
 
   useEffect(()=>{
-    const token = localStorage.getItem("user")
+    const token = localStorage.getItem("authToken")
     axios.get("http://localhost:5000/api/user/profile", {
-      header:{
+      headers:{
         Authorization: `Bearer ${token}`
       }
       }).then(res=>{
@@ -23,8 +23,8 @@ const Profile = () => {
   }
 
   const handleUpdate = async()=>{
-    const token = localStorage.getItem('user')
-    const res = await axios.put("http://localhost:5000/api/user/profile",{
+    const token = localStorage.getItem('authToken')
+    const res = await axios.put("http://localhost:5000/api/user/profile",form,{
       headers: {Authorization: `Bearer ${token}` }
     })
     setUser(res.data)
@@ -32,11 +32,12 @@ const Profile = () => {
   }
 
   const handleDelete = async()=>{
-    const token = localStorage.getItem("user")
+    const token = localStorage.getItem("authToken")
     await axios.delete("http://localhost:5000/api/user/profile",{
       headers: {Authorization: `Bearer ${token}`}
     })
-    localStorage.clean()
+    localStorage.removeItem("authToken")
+    localStorage.removeItem("user")
     window.location.href ="/login"
   }
   console.log(user)

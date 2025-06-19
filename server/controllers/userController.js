@@ -25,6 +25,22 @@ const listUsers = async(req,res)=>{
     }
 }
 
+const fireUser = async(req,res)=>{
+    const userId = req.params.id
+    try{
+        const user = await User.findById(userId)
+        if(!user){
+            return res.status(404).json({message: "User not found"})
+        }
+        await User.findByIdAndDelete(userId)
+        res.json({message:"User deleted sucessfully"})
+    }catch(err){
+        console.error(err)
+        res.status(500).json({message: "server error"})
+    }
+
+}
 
 
-module.exports = {updateUser, listUsers}
+
+module.exports = {updateUser, listUsers, fireUser}

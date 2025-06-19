@@ -8,6 +8,7 @@ const http = require("http")
 const Message = require("./models/Message")
 const messageRouter = require("./routes/message")
 const userRouter = require('./routes/user')
+
 dotenv.config()
 
 connectDB()
