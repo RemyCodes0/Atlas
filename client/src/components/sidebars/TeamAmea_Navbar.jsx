@@ -44,6 +44,11 @@ export function TeamAmea_Navbar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
+                  <a href="/task-list">Tasks</a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
                   <a href="/meetings">🧑‍🤝‍🧑Meetings</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>

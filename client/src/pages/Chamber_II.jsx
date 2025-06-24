@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
 import DashboardLayout from '../layout/DashboardLayout'
 import { Chamber_II_Navbar } from '../components/sidebars/Chamber_II_Navbar'
+import { Chamber_I_Navbar } from '../components/sidebars/Chamber_I_Navbar'
+import { Chamber_III_Navbar } from '../components/sidebars/Chamber_III_Navbar'
+import { CEONavbar } from '../components/sidebars/CEONavbar'
+import { Peasant_Navbar } from '../components/sidebars/Peasant_Navbar'
+import { TeamAmea_Navbar } from '../components/sidebars/TeamAmea_Navbar'
+
 import { io } from 'socket.io-client'
 
 const socket = io("http://localhost:5000")
@@ -49,9 +55,21 @@ const Chamber_I = ({ chamber }) => {
     e.preventDefault()
     sendMessage()
   }
-  return (
+ const roleToSidebar = {
+  "Peasant": <Peasant_Navbar />,
+  "CEO": <CEONavbar />,
+  "I": <Chamber_I_Navbar />,
+  "II": <Chamber_II_Navbar />,
+  "III": <Chamber_III_Navbar />,
+  "Team Amea": <TeamAmea_Navbar />,
+  
+}
 
-    <DashboardLayout sidebar={<Chamber_II_Navbar/>}>
+const sidebar = user
+  ? Object.entries(roleToSidebar).find(([key]) => user.role.includes(key))?.[1] || <TeamAmea_Navbar />
+  : <TeamAmea_Navbar />
+  return (
+    <DashboardLayout sidebar={sidebar}>
     <div className="bg-white min-h-[100vh] flex-1 rounded-xl md:min-h-min">
       <h2 className="text-xl font-bold mb-4">Chamber {chamber} Chat</h2>
       <div className="h-[100vh] overflow-y-scroll border p-2 rounded mb-4">

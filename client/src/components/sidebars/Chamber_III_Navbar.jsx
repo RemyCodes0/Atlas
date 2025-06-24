@@ -39,6 +39,11 @@ export function Chamber_III_Navbar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
+                  <a href="/task-list">Tasks</a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
                   <a href="/chamber_ii">📝Curation System</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>

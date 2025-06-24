@@ -8,7 +8,7 @@ const http = require("http")
 const Message = require("./models/Message")
 const messageRouter = require("./routes/message")
 const userRouter = require('./routes/user')
-
+const taskRoutes = require("./routes/task")
 dotenv.config()
 
 connectDB()
@@ -29,6 +29,7 @@ app.get("/", (req,res)=>{
 app.use("/api/auth", authRoutes)
 app.use("/api/messages", messageRouter)
 app.use("/api/user", userRouter )
+app.use("/api/tasks", taskRoutes)
 
 const io = new Server(server, {
     cors:{

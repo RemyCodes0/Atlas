@@ -3,6 +3,10 @@ import DashboardLayout from '../layout/DashboardLayout'
 import { TeamAmea_Navbar } from '../components/sidebars/TeamAmea_Navbar'
 import { io } from 'socket.io-client'
 import { Peasant_Navbar } from '../components/sidebars/Peasant_Navbar'
+import { CEONavbar } from '../components/sidebars/CEONavbar'
+import { Chamber_I_Navbar } from '../components/sidebars/Chamber_I_Navbar'
+import { Chamber_II_Navbar } from '../components/sidebars/Chamber_II_Navbar'
+import { Chamber_III_Navbar } from '../components/sidebars/Chamber_III_Navbar'
 
 const socket = io("http://localhost:5000")
 
@@ -58,12 +62,23 @@ const TeamAmea = ({ chamber }) => {
     return <div className="text-center p-4">Loading...</div>
   }
 
-  const sidebar = user.role.includes("Peasant") ? <Peasant_Navbar /> : <TeamAmea_Navbar />
+ const roleToSidebar = {
+  "Peasant": <Peasant_Navbar />,
+  "CEO": <CEONavbar />,
+  "I": <Chamber_I_Navbar />,
+  "II": <Chamber_II_Navbar />,
+  "III": <Chamber_III_Navbar />,
+  "Team Amea": <TeamAmea_Navbar />,
+  
+}
 
+const sidebar = user
+  ? Object.entries(roleToSidebar).find(([key]) => user.role.includes(key))?.[1] || <TeamAmea_Navbar />
+  : <TeamAmea_Navbar />
   return (
     <DashboardLayout sidebar={sidebar}>
       <div className="bg-white min-h-[100vh] flex-1 rounded-xl md:min-h-min">
-        <h2 className="text-xl font-bold mb-4">Chamber {chamber} Chat</h2>
+        <h2 className="text-xl font-bold mb-4">Chamber {chamber}|{user.role}| Chat</h2>
         <div className="h-[100vh] overflow-y-scroll border p-2 rounded mb-4">
           {chat.map((msg, idx) => {
             const isSender = msg.sender === user.name

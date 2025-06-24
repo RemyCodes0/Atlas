@@ -17,6 +17,8 @@ import CurationSystem from './pages/CurationSystem'
 import NetworkManagement from './pages/NetworkManagement'
 import Profile from './pages/Profile'
 import { Toaster } from "sonner"
+import TaskDetails from './pages/TaskDetails'
+import TaskList from './pages/TaskList'
 
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
      <Route path='/curation-system' element={<CurationSystem/>}/> 
      <Route path='/network-management' element={<NetworkManagement/>}/> 
      <Route path='/profile' element={<Profile/>}/> 
+     <Route path='/task-details/:taskId' element={<TaskDetails/>}/> 
+     <Route path='/task-list' element={<TaskList/>}/> 
  
   </Routes>
   <Toaster richColors position='top-right'/>
