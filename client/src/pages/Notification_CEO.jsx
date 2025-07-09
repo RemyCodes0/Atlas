@@ -1,66 +1,3 @@
-// "use client"
-
-// import { useState } from "react";
-// import axios from "axios";
-
-// export default function NotificationUpload() {
-//   const [description, setDescription] = useState("");
-//   const [image, setImage] = useState(null);
-
-//   const token = localStorage.getItem("authToken");
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     if (!image || !description.trim()) {
-//       alert("Image and description are required");
-//       return;
-//     }
-
-//     const formData = new FormData();
-//     formData.append("description", description);
-//     formData.append("image", image);
-
-//     try {
-//       const res = await axios.post("http://localhost:5000/api/notification", formData, {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//           "Content-Type": "multipart/form-data",
-//         },
-//       });
-//       alert("Notification uploaded!");
-//       setDescription("");
-//       setImage(null);
-//     } catch (err) {
-//       console.error(err);
-//       alert("Upload failed");
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit} className="p-4 max-w-md mx-auto">
-//       <div>
-//         <label>Description</label>
-//         <textarea
-//           value={description}
-//           onChange={(e) => setDescription(e.target.value)}
-//           className="w-full p-2 border rounded"
-//         />
-//       </div>
-
-//       <div className="mt-4">
-//         <label>Upload Image</label>
-//         <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
-//       </div>
-
-//       <button
-//         type="submit"
-//         className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-//       >
-//         Upload Notification
-//       </button>
-//     </form>
-//   );
-// }
 "use client"
 
 import { useEffect, useState } from "react"
@@ -79,6 +16,13 @@ import DashboardLayout from '../layout/DashboardLayout'
 import { TeamAmea_Navbar } from '../components/sidebars/TeamAmea_Navbar'
 import { Upload, Calendar, FileText, ImageIcon, Trash2 } from "lucide-react"
 import axios from "axios"
+import Linkify from "linkify-react";
+
+const options = {
+  target: "_blank",
+  rel: "noopener noreferrer",
+  className: "text-blue-600 underline", 
+};
 
 export default function Component() {
   const [notifications, setNotifications] = useState([])
@@ -259,6 +203,8 @@ const sidebar = user
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {notifications.map((notification) => (
                 <Card key={notification._id} className="overflow-hidden">
+                  <Linkify options={options}>
+                  
                   <div className="relative h-48 w-full">
                     <img
                       src={`http://localhost:5000${notification.imageUrl}`}
@@ -288,6 +234,7 @@ const sidebar = user
                       <p className="text-sm leading-relaxed line-clamp-3">{notification.description}</p>
                     </div>
                   </CardContent>
+                  </Linkify>
                 </Card>
               ))}
             </div>

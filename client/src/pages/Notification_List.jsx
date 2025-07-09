@@ -12,9 +12,18 @@ import { Peasant_Navbar } from '../components/sidebars/Peasant_Navbar'
 import DashboardLayout from '../layout/DashboardLayout'
 import { CEONavbar } from '../components/sidebars/CEONavbar'
 import { TeamAmea_Navbar } from '../components/sidebars/TeamAmea_Navbar'
+import Linkify from "linkify-react"
 
 import { Button } from "@/components/ui/button"
 import axios from "axios"
+
+
+
+const options = {
+      target: "_blank",
+      rel: "noopener noreferrer",
+      className: "text-blue-600 underline",
+}
 
 
 
@@ -179,6 +188,8 @@ const sidebar = user
           <div className="space-y-6">
             {filteredNotifications.map((notification, index) => (
               <Card key={notification._id} className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
+                <Linkify options={options}>
+               
                 <div className="md:flex">
                   <div className="md:w-1/3 relative h-48 md:h-auto">
                     <img
@@ -203,6 +214,7 @@ const sidebar = user
                     </CardContent>
                   </div>
                 </div>
+                 </Linkify>
               </Card>
             ))}
           </div>
