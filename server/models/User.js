@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const userScheme = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, "Please enter your name"],
@@ -19,8 +19,13 @@ const userScheme = new mongoose.Schema({
         enum: ["CEO",  "President-I", "President-II","President-III","Vice President-I","Vice President-II","Vice President-III", "Member-I", "Member-II", "Member-III", "Peasant"],
         default:"Peasant"
     },
+    imageUrl:{
+        type: String,
+        required: true,
+        default: "/uploads/profile/default.png"
+    },
 },
 {timestamps: true}
 )
 
-module.exports = mongoose.model("User", userScheme);
+module.exports = mongoose.model("User", userSchema);

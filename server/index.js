@@ -9,6 +9,8 @@ const Message = require("./models/Message")
 const messageRouter = require("./routes/message")
 const userRouter = require('./routes/user')
 const taskRoutes = require("./routes/task")
+const path = require("path")
+const notificationRouter = require("./routes/notification")
 dotenv.config()
 
 connectDB()
@@ -17,6 +19,7 @@ const app = express()
 const server = http.createServer(app)
 app.use(express.json())
 app.use(cors())
+app.use("/uploads", express.static(path.join(__dirname, 'uploads')))
 
 
 
@@ -30,6 +33,7 @@ app.use("/api/auth", authRoutes)
 app.use("/api/messages", messageRouter)
 app.use("/api/user", userRouter )
 app.use("/api/tasks", taskRoutes)
+app.use("/api/notification/", notificationRouter)
 
 const io = new Server(server, {
     cors:{
@@ -46,6 +50,7 @@ io.on("connection", (socket)=>{
             const savedMessage = await Message.create({
                 sender: data.sender,
                 role: data.role,
+                avatar: data.avatar,
                 message: data.message,
                 chamber: data.chamber
             })

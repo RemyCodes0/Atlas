@@ -25,6 +25,8 @@ const registerUser = async(req, res) =>{
                 id: newUser._id,
                 name: newUser.name,
                 email: newUser.email,
+                role: newUser.role,
+                imageUrl: newUser.imageUrl
             }
         })
     }catch(err){
@@ -44,14 +46,15 @@ const loginUser = async(req, res) =>{
             return res.status(400).json({msg:"Invalid Credentials"})
         }
 
-        const token =jwt.sign({id: existingUser._id, role: existingUser.role}, process.env.JWT_SECRET, {expiresIn:"1d"})
+        const token =jwt.sign({id: existingUser._id, role: existingUser.role, imageUrl: existingUser.imageUrl}, process.env.JWT_SECRET, {expiresIn:"1d"})
         res.status(200).json({
             token,
             user:{
                 id: existingUser._id,
                 name: existingUser.name,
                 email: existingUser.email,
-                role: existingUser.role
+                role: existingUser.role,
+                imageUrl: existingUser.imageUrl
             }
         })
     }catch(err){

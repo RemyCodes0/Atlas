@@ -32,20 +32,31 @@ const taskSchema = new mongoose.Schema({
     required: true,
   },
 
-  proofFiles: {
-    text: {
+proofFiles: [
+  {
+    type: {
+      type: String,
+      enum: ["text", "image", "video", "file"],
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    description: {
       type: String,
       default: "",
     },
-    images: {
-      type: [String],
-      default: [],
+    uploadedAt: {
+      type: Date,
+      default: Date.now,
     },
-    videos: {
-      type: [String],
-      default: [],
-    },
-  },
+    completedAt: {
+  type: Date,
+}
+  }
+],
+
 
   rejectionReason: {
     type: String,

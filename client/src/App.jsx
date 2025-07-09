@@ -19,6 +19,8 @@ import Profile from './pages/Profile'
 import { Toaster } from "sonner"
 import TaskDetails from './pages/TaskDetails'
 import TaskList from './pages/TaskList'
+import NotificationList from './pages/Notification_List'
+import NotificationUpload from './pages/Notification_CEO'
 
 
 function App() {
@@ -44,6 +46,8 @@ function App() {
      <Route path='/profile' element={<Profile/>}/> 
      <Route path='/task-details/:taskId' element={<TaskDetails/>}/> 
      <Route path='/task-list' element={<TaskList/>}/> 
+     <Route path='/notification_list' element={<NotificationList/>}/> 
+     <Route path='/notification_ceo' element={<NotificationUpload/>}/> 
  
   </Routes>
   <Toaster richColors position='top-right'/>

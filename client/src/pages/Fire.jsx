@@ -60,7 +60,7 @@ function Fire() {
     accessorKey: "image",
     header: "Profile Picture",
     cell: ({ row }) => (
-      <img  className="h-10 w-10 rounded-full object-cover" src={row.getValue("image")} alt="No images" />
+      <img  className="h-10 w-10 rounded-full object-cover" src={`http://localhost:5000${row.original.imageUrl}`} alt="No images" />
     ),
   },
   {
@@ -256,7 +256,7 @@ const res = await fetch("http://localhost:5000/api/auth/listUsers")
                   className="h-24 text-center"
                 >
                   <div className="flex justify-center items-center">
-                  <Loader2 className="h-8 w-8 animate-spin text-primary"/>
+                                    <Loader2 className="h-8 w-8 animate-spin text-primary"/>
                   </div>
                 </TableCell>
               </TableRow>

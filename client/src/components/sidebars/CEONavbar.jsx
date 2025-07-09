@@ -75,6 +75,11 @@ export function CEONavbar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
+                  <a href="/notification_ceo">Notifications</a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
                   <a href="/profile">Profile</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>

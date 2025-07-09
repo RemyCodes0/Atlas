@@ -102,8 +102,8 @@ return (
           className="border rounded bg-red-700 text-white p-2 text-2xl mb-4 hover:bg-red-800" disabled={loader}
         >
           {loader?
-          <div className='flex justify-center items-center'>
-            <Loader2/>
+         <div className="flex justify-center items-center">
+                           <Loader2 className="h-8 w-8 animate-spin text-primary"/>
           </div>
            
            : "Login"}

@@ -36,12 +36,6 @@ import { Loader2 } from "lucide-react";
 import { CEONavbar } from "../components/sidebars/CEONavbar"
 
 
-
-
-
-
-
-
 function UserProfiles() {
   const [sorting, setSorting] = React.useState([])
   const [data, setData] = React.useState([])
@@ -59,7 +53,7 @@ function UserProfiles() {
     accessorKey: "image",
     header: "Profile Picture",
     cell: ({ row }) => (
-      <img  className="h-10 w-10 rounded-full object-cover" src={row.getValue("image")} alt="No images" />
+      <img  className="h-10 w-10 rounded-full object-cover" src={`http://localhost:5000${row.original.imageUrl}`} alt="No images" />
     ),
   },
   {

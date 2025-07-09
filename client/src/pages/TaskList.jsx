@@ -1,66 +1,3 @@
-// import axios from 'axios'
-// import React, { useEffect, useState } from 'react'
-// import { Link } from 'react-router-dom'
-
-// const TaskList = () => {
-//     const [tasks, setTasks] = useState([])
-//     const token = localStorage.getItem("authToken")
-
-//     useEffect(()=>{
-//         const fetchTasks = async()=>{
-//             try{
-//                 const res = await axios.get("http://localhost:5000/api/tasks/my-tasks",{
-//                     headers: {Authorization: `Bearer ${token}`}
-//                 })
-//             setTasks(res.data || [])
-//             }catch(err){
-//                 console.error("Failed to fetch tasks", err)
-//                 alert("Error fetching your assigned tasks")
-//             }
-//         }
-//         fetchTasks()
-//     }, [])
-
-//   return (
-//     <div className="max-w-4xl mx-auto mt-10">
-//       <h1 className="text-3xl font-bold mb-6">My Assigned Tasks</h1>
-//       {tasks.length === 0 ? (
-//         <p>No tasks assigned yet.</p>
-//       ) : (
-//         <div className="space-y-4">
-//           {tasks.map((task) => (
-//             <div key={task._id} className="p-4 border rounded shadow-sm bg-white">
-//               <h2 className="text-xl font-semibold">{task.title}</h2>
-//               <p className="text-gray-600 mb-1">{task.description}</p>
-//               <p className="text-sm text-gray-500 mb-2">
-//                 Due: {new Date(task.dueDate).toLocaleDateString()} | Status:{" "}
-//                 <span
-//                   className={
-//                     task.status === "completed"
-//                       ? "text-green-600"
-//                       : task.status === "rejected"
-//                       ? "text-red-600"
-//                       : "text-yellow-600"
-//                   }
-//                 >
-//                   {task.status}
-//                 </span>
-//               </p>
-//               <Link
-//                 to={`/tasks/${task._id}`}
-//                 className="text-blue-600 underline"
-//               >
-//                 View & Submit Proof
-//               </Link>
-//             </div>
-//           ))}
-//         </div>
-//       )}
-//     </div>
-//   )
-// }
-
-// export default TaskList
 "use client"
 
 import { useState } from "react"
@@ -70,6 +7,13 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import DashboardLayout from '../layout/DashboardLayout'
+import { Chamber_I_Navbar } from '../components/sidebars/Chamber_I_Navbar'
+import { Chamber_II_Navbar } from '../components/sidebars/Chamber_II_Navbar'
+import { Chamber_III_Navbar } from '../components/sidebars/Chamber_III_Navbar'
+import { Peasant_Navbar } from '../components/sidebars/Peasant_Navbar'
+import { CEONavbar } from '../components/sidebars/CEONavbar'
+import { TeamAmea_Navbar } from '../components/sidebars/TeamAmea_Navbar'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
   Dialog,
@@ -81,7 +25,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, User, Upload, CheckCircle, XCircle, AlertCircle, Camera, FileText, Video } from "lucide-react"
+import { Calendar, User, Upload, CheckCircle, XCircle, AlertCircle, Camera, FileText, Video, Loader2 } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import axios from "axios"
 import { useEffect } from "react"
@@ -97,21 +41,33 @@ export default function TaskList() {
   const [rejectionReason, setRejectionReason] = useState("")
   const [showProofDialog, setShowProofDialog] = useState(false)
   const [showRejectDialog, setShowRejectDialog] = useState(false)
+  const [selectedImage, setSelectedImage] = useState(null);
+const [selectedVideo, setSelectedVideo] = useState(null);
+const user = JSON.parse(localStorage.getItem("user"))
+const [loader, setLoader] = useState(false)
+
 
   const token = localStorage.getItem("authToken")
 
   useEffect(()=>{
     const fetchTasks = async()=>{
+      setLoader(true)
       try{
         const res = await axios.get("http://localhost:5000/api/tasks/my-tasks",{
           headers: {Authorization: `Bearer ${token}`}
+          
         })
         console.log("Fetch task response", res.data)
-        setTasks(res.data)
-
+        setTasks(
+  res.data.map((task) => ({
+    ...task,
+    proofFiles: task.proofFiles || [],
+  })))
+      setLoader(false)
       }catch(err){
         console.error("There was an error while getching tasks", err)
         alert("An error accorded"+ err)
+        setLoader(false)
       }
     }
     fetchTasks()
@@ -121,7 +77,7 @@ export default function TaskList() {
     switch (status) {
       case "pending":
         return "bg-yellow-100 text-yellow-800"
-      case "in-progress":
+      case "in progress":
         return "bg-blue-100 text-blue-800"
       case "completed":
         return "bg-green-100 text-green-800"
@@ -131,66 +87,121 @@ export default function TaskList() {
         return "bg-gray-100 text-gray-800"
     }
   }
-
   const filteredTasks = tasks.filter((task) => statusFilter === "all" || task.status === statusFilter)
+const handleStatusChange = async (taskId, newStatus) => {
+  try {
+    const response = await axios.patch(
+      `http://localhost:5000/api/tasks/${taskId}/status`,
+      { newStatus },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-  const handleStatusChange = (taskId, newStatus) => {
-    if (newStatus === "completed" && selectedTask && (!selectedTask.proofs || selectedTask.proofs.length === 0)) {
-      alert("Please provide proof before marking the task as completed.")
-      return
+    const data = response.data;
+
+    if (data.error) {
+      alert(data.error);
+      return;
     }
 
-    setTasks(tasks.map((task) => (task._id === taskId ? { ...task, status: newStatus } : task)))
+    if (data.task) {
+      setSelectedTask(data.task);
 
-    if (selectedTask) {
-      setSelectedTask({ ...selectedTask, status: newStatus})
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task._id === data.task._id ? data.task : task
+        )
+      );
+    }
+  } catch (error) {
+    if (error.response) {
+      alert('Error: ' + (error.response.data.error || error.response.statusText));
+    } else {
+      alert('Failed to update task status: ' + error.message);
     }
   }
+};
 
-  const handleAddProof = (type) => {
-    if (!selectedTask) return
+  const handleAddProof = async (type) => {
+  if (!selectedTask) return
 
-    if (type === "text" && !proofText.trim()) {
+  const formData = new FormData()
+  formData.append("status", selectedTask.status)
+  if (type === "text") {
+    if (!proofText.trim()) {
       alert("Please enter proof text.")
       return
     }
+    formData.append("textProof", proofText)
+    formData.append("proofDescription", proofDescription)
+  }
+  if (type === "image" && selectedImage) {
+  formData.append("proofFiles", selectedImage);
+  formData.append("proofDescription", proofDescription);
+}
 
-    const newProof = {
-      id: Date.now().toString(),
-      type,
-      content: type === "text" ? proofText : `${type}-file-${Date.now()}`,
-      description: proofDescription,
-      uploadedAt: new Date().toISOString(),
-    }
+if (type === "video" && selectedVideo) {
+  formData.append("proofFiles", selectedVideo);
+  formData.append("proofDescription", proofDescription);
+}
 
-    const updatedTask = {
-      ...selectedTask,
-      proofs: [...(selectedTask.proofs || []), newProof],
-    }
-
-    setTasks(tasks.map((task) => (task._id === selectedTask.id ? updatedTask : task)))
+  
+  try {
+    const res = await axios.put(
+      `http://localhost:5000/api/tasks/${selectedTask._id}/status`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+    
+    const updatedTask = res.data
+    setTasks(tasks.map((task) => (task._id === updatedTask._id ? updatedTask : task)))
     setSelectedTask(updatedTask)
     setProofText("")
     setProofDescription("")
     setShowProofDialog(false)
+  } catch (err) {
+    console.error("Error uploading proof", err)
+    alert("Failed to upload proof: " + err.message)
   }
+}
 
-  const handleRejectTask = () => {
+  const handleRejectTask = async () => {
     if (!selectedTask || !rejectionReason.trim()) {
       alert("Please provide a reason for rejection.")
       return
     }
-
-    const updatedTask = {
+     const updatedTask = {
       ...selectedTask,
       status: "rejected",
       rejectionReason,
     }
-
-    setTasks(tasks.map((task) => (task._id === selectedTask.id ? updatedTask : task)))
+    try{
+       
+      const res = await axios.patch(`http://localhost:5000/api/tasks/${selectedTask._id}/reject`, {rejectionReason},{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }) 
+    setTasks(tasks.map((task) => (task._id === selectedTask._id ? updatedTask : task)))
     setSelectedTask(updatedTask)
     setRejectionReason("")
     setShowRejectDialog(false)
+
+    }catch(err){
+      console.error("The server had an issue", err)
+    }
+   
+
+    
   }
 
   const getDaysUntilDue = (dueDate) => {
@@ -201,8 +212,28 @@ export default function TaskList() {
     return diffDays
   }
 
+const roleToSidebar = {
+  "Peasant": <Peasant_Navbar />,
+  "CEO": <CEONavbar />,
+  "I": <Chamber_I_Navbar />,
+  "II": <Chamber_II_Navbar />,
+  "III": <Chamber_III_Navbar />,
+  "Team Amea": <TeamAmea_Navbar />,
+  
+}
+
+const sidebar = user
+  ? Object.entries(roleToSidebar).find(([key]) => user.role.includes(key))?.[1] || <TeamAmea_Navbar />
+  : <TeamAmea_Navbar />
   return (
-    <div className="container mx-auto p-4 max-w-6xl">
+    <DashboardLayout sidebar={sidebar}>
+     { loader? (
+       <div className="flex justify-center items-center">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary"/>
+                  </div>
+     ):
+     (
+ <div className="container mx-auto p-4 max-w-6xl">
       <div className="mb-6">
         <h1 className="text-3xl font-bold mb-2">My Tasks</h1>
         <p className="text-muted-foreground">Manage your assigned tasks and submit proof of completion</p>
@@ -217,14 +248,13 @@ export default function TaskList() {
           <SelectContent>
             <SelectItem value="all">All Tasks</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="in-progress">In Progress</SelectItem>
+            <SelectItem value="in progress">In Progress</SelectItem>
             <SelectItem value="completed">Completed</SelectItem>
             <SelectItem value="rejected">Rejected</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      {/* Task List */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {filteredTasks.map((task) => {
           const daysUntilDue = getDaysUntilDue(task.dueDate)
@@ -265,12 +295,12 @@ export default function TaskList() {
                   </div>
                   <div className="flex items-center justify-between">
                     <Badge className={getStatusColor(task.status)}>{task.status.replace("-", " ")}</Badge>
-                    {task.proofs && task.proofs.length > 0 && (
-                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                        <CheckCircle className="w-4 h-4" />
-                        <span>{task.proofs.length} proof(s)</span>
-                      </div>
-                    )}
+                    {(task.proofFiles?.length ?? 0) > 0 && (
+  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+    <CheckCircle className="w-4 h-4" />
+    <span>{task.proofFiles.length} proof(s)</span>
+  </div>
+)}
                   </div>
                 </div>
               </CardContent>
@@ -385,7 +415,7 @@ export default function TaskList() {
                             <TabsContent value="image" className="space-y-4">
                               <div>
                                 <Label htmlFor="image-upload">Upload Image</Label>
-                                <Input id="image-upload" type="file" accept="image/*" />
+                                <Input onChange={(e)=>setSelectedImage(e.target.files[0])} id="image-upload" type="file" accept="image/*" />
                               </div>
                               <div>
                                 <Label htmlFor="image-desc">Description (Optional)</Label>
@@ -403,7 +433,7 @@ export default function TaskList() {
                             <TabsContent value="video" className="space-y-4">
                               <div>
                                 <Label htmlFor="video-upload">Upload Video</Label>
-                                <Input id="video-upload" type="file" accept="video/*" />
+                                <Input onChange={(e)=>setSelectedVideo(e.target.files[0])} id="video-upload" type="file" accept="video/*" />
                               </div>
                               <div>
                                 <Label htmlFor="video-desc">Description (Optional)</Label>
@@ -460,12 +490,12 @@ export default function TaskList() {
                 {/* Actions */}
                 <div className="flex gap-2 pt-4 border-t">
                   {selectedTask.status === "pending" && (
-                    <Button onClick={() => handleStatusChange(selectedTask.id, "in-progress")} className="flex-1">
+                    <Button onClick={() => handleStatusChange(selectedTask._id, "in progress")} className="flex-1">
                       Start Task
                     </Button>
                   )}
 
-                  {(selectedTask.status === "pending" || selectedTask.status === "in-progress") && (
+                  {(selectedTask.status === "pending" || selectedTask.status === "in progress") && (
                     <>
                       <Button
                         onClick={() => handleStatusChange(selectedTask._id, "completed")}
@@ -518,5 +548,10 @@ export default function TaskList() {
         </DialogContent>
       </Dialog>
     </div>
+     )
+    
+     }
+   
+    </DashboardLayout>
   )
 }

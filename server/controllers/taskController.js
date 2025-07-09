@@ -77,4 +77,63 @@ const updateTask = async(req,res)=>{
     }
 }
 
-module.exports= {createTask, getTask, getAssignedTasks, deleteTask, updateTask}
+const statusUpdate = async(req, res)=>{
+    
+        const taskId = req.params.id
+        const { newStatus } = req.body
+    try{
+        const task = await Task.findById(taskId)
+        if(!task){
+            return res.status(404).json({error: 'Task not found'})
+
+        }
+        if (newStatus ==='completed'){
+            if(!task.proofFiles || task.proofFiles.length ===0){
+                return res.status(400).json({error : "Please provide proof nefore making task as completedx"})
+            }
+        }
+
+        const isProofValide = task.proofFiles.every(
+            (proof)=>proof.type && proof.content
+        )
+        if(!isProofValide){
+            return res.status(400).json({message: "All proof files must include both type and content"})
+        } 
+        task.status = newStatus;
+        await task.save();
+        return res.status(200).json({message:"status updated successfully", task})
+    }catch(error){
+        console.error(error)
+        return res.status(500).json({error: 'server error'})
+    }
+    
+}
+
+
+const rejectTask = async (req, res) =>{
+    const taskId= req.params.id
+    const {rejectionReason} = req.body
+    try{
+        const task = await Task.findById(taskId)
+    if(!task){
+        return res.status(404).json({message: 'No such task in the DB'})
+    }
+    if(!rejectionReason){
+        return res.status(400).json({message: "You must provide a reason to reject"})
+    }
+    task.rejectionReason = rejectionReason
+    task.status = "rejected"
+    await task.save()
+    return res.status(200).json({message: "You have successfully rejected this task", task})
+    }catch(err){
+        res.status(500).json({msg: "The server had issue", error: err})
+    }
+}
+
+
+
+
+
+
+
+module.exports= {createTask, getTask, getAssignedTasks, deleteTask, updateTask, statusUpdate, rejectTask}

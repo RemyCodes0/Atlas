@@ -29,7 +29,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Edit, Trash2, Plus, User, Clock } from "lucide-react"
+import { Edit, Trash2, Plus, User, Clock, Loader } from "lucide-react"
 import { format, parseISO } from "date-fns"
 import axios from "axios"
 import { useEffect } from "react"
@@ -40,6 +40,7 @@ import { Peasant_Navbar } from '../components/sidebars/Peasant_Navbar'
 import { CEONavbar } from '../components/sidebars/CEONavbar'
 import { TeamAmea_Navbar } from '../components/sidebars/TeamAmea_Navbar'
 import DashboardLayout from "../layout/DashboardLayout"
+import { Loader2 } from "lucide-react"
 
 
 
@@ -63,6 +64,8 @@ export default function Tasks() {
     })
   }
   const [user, setUser] = useState()
+  const [loader, setLoader] = useState(false)
+
 
 useEffect(() => {
   const actualUser = localStorage.getItem("user")
@@ -90,14 +93,18 @@ useEffect(() => {
 
   useEffect(()=>{
     const fetchTask =async()=>{
+
       try{
+        setLoader(true)
         const res = await axios.get("http://localhost:5000/api/tasks/assignedTasks",{
         headers:{Authorization: `Bearer ${token}`}
       })
       setTasks(res.data)
+      setLoader(false)
       }catch(err){
         console.error("Tasks not fetched", err)
         alert("tasks not fetched")
+        setLoader(false)
       }
      
     }
@@ -212,7 +219,7 @@ const handleUpdateTask = async (e) => {
     switch (status) {
       case "completed":
         return "bg-green-100 text-green-800"
-      case "in-progress":
+      case "in progress":
         return "bg-blue-100 text-blue-800"
       case "pending":
         return "bg-yellow-100 text-yellow-800"
@@ -240,7 +247,13 @@ const handleUpdateTask = async (e) => {
     : <TeamAmea_Navbar />
     return (
       <DashboardLayout sidebar={sidebar}>
-    <div className="container mx-auto p-6 max-w-6xl">
+        {loader?(
+        <div className="flex justify-center items-center">
+                          <Loader2 className="h-40 w-40 animate-spin text-primary"/>
+        </div>
+        ):
+        (
+<div className="container mx-auto p-6 max-w-6xl">
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold">Task Management</h1>
@@ -529,6 +542,10 @@ setFormData({ ...formData, dueDate: isoString })
         </DialogContent>
       </Dialog>
     </div>
+        )
+
+        }
+    
     </DashboardLayout>
   )
 }

@@ -40,16 +40,19 @@ const Chamber_I = ({ chamber }) => {
   }, [chamber])
 
   const sendMessage = () => {
+    
     if (message.trim()) {
       const newMessage ={
         sender: user.name, 
         role: user.role,
+        avatar: user.imageUrl,
         message: message.trim(),
         chamber: chamber,
       }
       socket.emit("sendMessage", newMessage)
       setMessage("")
     }
+
   }
   const handleSubmit=(e)=>{
     e.preventDefault()
@@ -89,7 +92,8 @@ const sidebar = user
             >
               {!isSender && (
                 <div className='text-sm font-semibold flex justify-between mb-1'>
-                  <div>{msg.sender}</div>
+               {/* <div><img src={`http://localhost:5000/${msg.avatar}`} alt="No" /></div> */} 
+               <div>{msg.sender}</div> 
                   
                   </div>
               )}
