@@ -24,7 +24,7 @@ export function Peasant_Navbar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/chamber_i">💬Chat</a>
+                  <a href="/team-amea">💬Chat</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
