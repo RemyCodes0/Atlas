@@ -54,6 +54,7 @@ export default function Tasks() {
     assignedTo: "",
     dueDate: "",
   })
+  const [selectedExplanation, setSelectedExplanation] = useState([])
   const [teamMembers, setTeamMembers] = useState([])
   const resetForm = () => {
     setFormData({
@@ -249,7 +250,7 @@ const handleUpdateTask = async (e) => {
       <DashboardLayout sidebar={sidebar}>
         {loader?(
         <div className="flex justify-center items-center">
-                          <Loader2 className="h-40 w-40 animate-spin text-primary"/>
+                          <Loader2 className="h-10 w-10 animate-spin text-primary"/>
         </div>
         ):
         (
@@ -257,7 +258,7 @@ const handleUpdateTask = async (e) => {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold">Task Management</h1>
-          <p className="text-muted-foreground mt-2">Assign and manage tasks for your team members</p>
+      
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
@@ -429,10 +430,90 @@ setFormData({ ...formData, dueDate: isoString })
                         </span>
                       </div>
                     </div>
+                   <div className="flex flex-row gap-2">
+   {task.status === "completed" && (
+  <Dialog>
+    <DialogTrigger asChild>
+      <button
+        className="border px-3 py-1 rounded-full font-bold bg-blue-200 text-blue-900"
+        onClick={() => setSelectedExplanation(task.proofFiles || [])}
+      >
+        Explanations
+      </button>
+    </DialogTrigger>
+
+    <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto">
+      <DialogHeader>
+        <DialogTitle>Explanation</DialogTitle>
+        <DialogDescription asChild>
+          <div className="space-y-4">
+            {selectedExplanation.length === 0 ? (
+              <p>No explanations provided.</p>
+            ) : (
+              selectedExplanation.map((file, index) => (
+                <div
+                  key={index}
+                  className="p-3 border rounded-md bg-gray-50 shadow-sm text-sm space-y-1"
+                >
+                  <p><strong>Type:</strong> {file.type}</p>
+                  {file.type === "text" ? (
+  <p><strong>Content:</strong> {file.content}</p>
+) : file.type === "image" ? (
+  <img
+    src={`http://localhost:5000${file.content}`}
+    alt={file.content}
+    className="max-w-full h-auto rounded"
+  />
+) : file.type === "video" ? (
+  <video
+    controls
+    className="w-full max-h-[400px] rounded"
+    src={`http://localhost:5000${file.content}`}
+  />
+) : (
+  <a
+    href={`http://localhost:5000${file.content}`}
+    download
+    className="text-blue-600 underline"
+  >
+    Download File
+  </a>
+)}
+
+                <a
+    href={`http://localhost:5000${file.content}`}
+    download
+    className="text-blue-600 underline"
+  >
+    Download File
+  </a>  
+                  {file.description && <p><strong>Description:</strong> {file.description}</p>}
+                  {file.uploadedAt && (
+                    <p>
+                      <strong>Uploaded:</strong>{" "}
+                      {new Date(file.uploadedAt).toLocaleString()}
+                    </p>
+                  )}
+                  {file.completedAt && (
+                    <p>
+                      <strong>Completed:</strong>{" "}
+                      {new Date(file.completedAt).toLocaleString()}
+                    </p>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        </DialogDescription>
+      </DialogHeader>
+    </DialogContent>
+  </Dialog>
+)}
                     <Select
                       value={task.status}
                       onValueChange={(value) => handleStatusChange(task._id, value)}
                     >
+     
                       <SelectTrigger className="w-32">
                         <SelectValue />
                       </SelectTrigger>
@@ -443,6 +524,8 @@ setFormData({ ...formData, dueDate: isoString })
                         <SelectItem value="completed">Completed</SelectItem>
                       </SelectContent>
                     </Select>
+                    </div>             
+                     
                   </div>
                 </CardContent>
               </Card>

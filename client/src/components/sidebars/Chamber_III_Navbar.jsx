@@ -34,27 +34,17 @@ export function Chamber_III_Navbar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/team-amea">Team Amea</a>
+                  <a href="/team-amea">❌Team Amea</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/task-list">Tasks</a>
+                  <a href="/task-list">📑Tasks</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/chamber_ii">📝Curation System</a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href="/chamber_iii">🛜Network Management</a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href="/chamber_iii">🧑‍🤝‍🧑Meetings</a>
+                  <a href="/notification_list">💡Notifications</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

@@ -34,17 +34,17 @@ export function Chamber_II_Navbar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/team-amea">Team Amea</a>
+                  <a href="/team-amea">❌Team Amea</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/task-list">Tasks</a>
+                  <a href="/notification_list">💡Notifications</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/chamber_iii">🧑‍🤝‍🧑Meetings</a>
+                  <a href="/task-list">📑Tasks</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

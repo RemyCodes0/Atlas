@@ -11,6 +11,7 @@ const userRouter = require('./routes/user')
 const taskRoutes = require("./routes/task")
 const path = require("path")
 const notificationRouter = require("./routes/notification")
+const curationRouter = require("./routes/curation")
 dotenv.config()
 
 connectDB()
@@ -34,6 +35,7 @@ app.use("/api/messages", messageRouter)
 app.use("/api/user", userRouter )
 app.use("/api/tasks", taskRoutes)
 app.use("/api/notification/", notificationRouter)
+app.use("/api/curate", curationRouter)
 
 const io = new Server(server, {
     cors:{

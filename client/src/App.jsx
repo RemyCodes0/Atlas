@@ -21,6 +21,7 @@ import TaskDetails from './pages/TaskDetails'
 import TaskList from './pages/TaskList'
 import NotificationList from './pages/Notification_List'
 import NotificationUpload from './pages/Notification_CEO'
+import Editor from './pages/Editor'
 
 
 function App() {
@@ -48,6 +49,8 @@ function App() {
      <Route path='/task-list' element={<TaskList/>}/> 
      <Route path='/notification_list' element={<NotificationList/>}/> 
      <Route path='/notification_ceo' element={<NotificationUpload/>}/> 
+     <Route path='/editor' element={<Editor/>}/> 
+     <Route path='/editor/:id' element={<Editor/>}/> 
  
   </Routes>
   <Toaster richColors position='top-right'/>

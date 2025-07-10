@@ -1,4 +1,3 @@
-// components/sidebars/CEONavbar.jsx
 import {
   Sidebar,
   SidebarContent,
@@ -21,22 +20,53 @@ export function CEONavbar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>CHAMBERS</SidebarGroupLabel>
+          <SidebarGroupLabel>CHAMBER I</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/chamber_i">Chamber I</a>
+                  <a href="/chamber_i">Chat</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/chamber_ii">Chamber II</a>
+                  <a href="/curation-system">Curation System</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>CHAMBER II</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/chamber_iii">Chamber III</a>
+                  <a href="/chamber_ii">Chat</a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>CHAMBER III</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a href="/chamber_iii">Chat</a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Team Amea</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a href="/team-amea">Chat</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -66,11 +96,6 @@ export function CEONavbar() {
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <a href="/tasks">Task Assignment</a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href="/meetings">Meeting</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
