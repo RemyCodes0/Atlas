@@ -7,13 +7,14 @@ import { CEONavbar } from '../components/sidebars/CEONavbar'
 import { Chamber_I_Navbar } from '../components/sidebars/Chamber_I_Navbar'
 import { Chamber_II_Navbar } from '../components/sidebars/Chamber_II_Navbar'
 import { Chamber_III_Navbar } from '../components/sidebars/Chamber_III_Navbar'
-
-const socket = io("http://localhost:5000")
+const simpleUrl = import.meta.env.SIMPLE_API_URL;
+const socket = io(`${simpleUrl}`)
 
 const TeamAmea = ({ chamber }) => {
   const [message, setMessage] = useState("")
   const [chat, setChat] = useState([])
   const [user, setUser] = useState(null)
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const messagesEndRef = useRef(null)
 
@@ -27,7 +28,7 @@ const TeamAmea = ({ chamber }) => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "null")
     setUser(storedUser)
 
-    fetch(`http://localhost:5000/api/messages/${chamber}`)
+    fetch(`${apiUrl}/messages/${chamber}`)
       .then((res) => res.json())
       .then((data) => setChat(data))
 

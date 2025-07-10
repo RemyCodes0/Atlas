@@ -10,6 +10,8 @@ const Login = () => {
   const [form, setForm] = useState({email: "", password: ""})
   const [loader, setLoader] = useState(false)
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const handleChange = (e) =>{
     setForm({...form, [e.target.name]:e.target.value})
   }
@@ -17,7 +19,7 @@ const Login = () => {
     e.preventDefault()
     setLoader(true)
     try{
-    const res = await axios.post("http://localhost:5000/api/auth/login", form)
+    const res = await axios.post(`${apiUrl}/auth/login`, form)
     const {token, user} = res.data
 
     localStorage.setItem("authToken", token)

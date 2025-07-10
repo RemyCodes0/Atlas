@@ -30,6 +30,7 @@ export default function ProfilePage() {
     department: user.role,
   })
   const token = localStorage.getItem("authToken")
+const apiUrl = import.meta.env.VITE_API_URL;
 
 
 
@@ -76,7 +77,7 @@ export default function ProfilePage() {
       avatar: formData.avatar,
     })
     try{
-      const res = await axios.put("http://localhost:5000/api/user/profile", userData ,{
+      const res = await axios.put(`${apiUrl}/user/profile`, userData ,{
         headers: {
           Authorization: `Bearer ${token}`
         }

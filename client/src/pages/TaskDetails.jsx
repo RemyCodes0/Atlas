@@ -8,11 +8,12 @@ const TaskDetails = ({ taskId }) => {
   const [explanation, setExplanation] = useState("")
   const [proofFiles, setProofFiles] = useState([])
   const token = localStorage.getItem("authToken")
+const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/tasks/${taskId}`, {
+        const res = await axios.get(`${apiUrl}/tasks/${taskId}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         setTask(res.data)
@@ -40,7 +41,7 @@ const TaskDetails = ({ taskId }) => {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/tasks/${taskId}/status`,
+        `${apiUrl}/tasks/${taskId}/status`,
         formData,
         {
           headers: {

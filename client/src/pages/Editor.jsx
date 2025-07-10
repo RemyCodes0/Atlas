@@ -54,13 +54,15 @@ export default function Editor() {
   const token = localStorage.getItem("authToken")
   const {id: editingId} = useParams()
   console.log("Editing ID:", editingId)
+  const apiUrl = import.meta.env.VITE_API_URL;
+
 
   useEffect(()=>{
     if(!editingId) return 
     const fetchCuration = async ()=>{
         try{
             const token = localStorage.getItem("authToken")
-            const res = await axios.get(`http://localhost:5000/api/curate/curation/${editingId}`,{
+            const res = await axios.get(`${apiUrl}/curate/curation/${editingId}`,{
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -100,13 +102,13 @@ export default function Editor() {
 
   try{
     if (editingId){
-        const response = await axios.put(`http://localhost:5000/api/curate/curation/${editingId}`,payload, {
+        const response = await axios.put(`${apiUrl}/curate/curation/${editingId}`,payload, {
             headers: {Authorization: `Bearer ${token}`},
         })
    
             toast.success("curation upadted successfully")
     }else{
-        const response = await axios.post("http://localhost:5000/api/curate/curation",payload,{
+        const response = await axios.post(`${apiUrl}/curate/curation`,payload,{
             headers: {Authorization: `Bearer ${token}`},
         })
       

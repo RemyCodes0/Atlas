@@ -45,6 +45,7 @@ export default function TaskList() {
 const [selectedVideo, setSelectedVideo] = useState(null);
 const user = JSON.parse(localStorage.getItem("user"))
 const [loader, setLoader] = useState(false)
+const apiUrl = import.meta.env.VITE_API_URL;
 
 
   const token = localStorage.getItem("authToken")
@@ -53,7 +54,7 @@ const [loader, setLoader] = useState(false)
     const fetchTasks = async()=>{
       setLoader(true)
       try{
-        const res = await axios.get("http://localhost:5000/api/tasks/my-tasks",{
+        const res = await axios.get(`${apiUrl}/tasks/my-tasks`,{
           headers: {Authorization: `Bearer ${token}`}
           
         })
@@ -91,7 +92,7 @@ const [loader, setLoader] = useState(false)
 const handleStatusChange = async (taskId, newStatus) => {
   try {
     const response = await axios.patch(
-      `http://localhost:5000/api/tasks/${taskId}/status`,
+      `${apiUrl}/tasks/${taskId}/status`,
       { newStatus },
       {
         headers: {
@@ -152,7 +153,7 @@ if (type === "video" && selectedVideo) {
   
   try {
     const res = await axios.put(
-      `http://localhost:5000/api/tasks/${selectedTask._id}/status`,
+      `${apiUrl}/tasks/${selectedTask._id}/status`,
       formData,
       {
         headers: {
@@ -186,7 +187,7 @@ if (type === "video" && selectedVideo) {
     }
     try{
        
-      const res = await axios.patch(`http://localhost:5000/api/tasks/${selectedTask._id}/reject`, {rejectionReason},{
+      const res = await axios.patch(`${apiUrl}/tasks/${selectedTask._id}/reject`, {rejectionReason},{
         headers: {
           Authorization: `Bearer ${token}`
         }

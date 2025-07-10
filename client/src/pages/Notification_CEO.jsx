@@ -31,10 +31,12 @@ export default function Component() {
   const [previewUrl, setPreviewUrl] = useState(null)
   const token = localStorage.getItem("authToken")
   const user = JSON.parse(localStorage.getItem("user"))
+  const apiUrl = import.meta.env.VITE_API_URL;
+const simpleUrl = import.meta.env.SIMPLE_API_URL;
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/notification",{
+        const res = await axios.get(`${apiUrl}/notification`,{
             headers:{
                 Authorization: `Bearer ${token}`
             }
@@ -68,7 +70,7 @@ export default function Component() {
     formData.append("image", selectedFile);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/notification", formData, {
+      const res = await axios.post(`${apiUrl}/notification`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -91,7 +93,7 @@ export default function Component() {
   const handleDelete = async(id) => {
 
     try{
-        const res = await axios.delete(`http://localhost:5000/api/notification/${id}`,{
+        const res = await axios.delete(`${apiUrl}/notification/${id}`,{
             headers:{
                 Authorization: `Bearer ${token}`
             }
@@ -207,7 +209,7 @@ const sidebar = user
                   
                   <div className="relative h-48 w-full">
                     <img
-                      src={`http://localhost:5000${notification.imageUrl}`}
+                      src={`${simpleUrl}${notification.imageUrl}`}
                       alt="Notification"
                       className="w-full h-50"
                     />

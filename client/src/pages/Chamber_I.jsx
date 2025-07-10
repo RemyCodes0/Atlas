@@ -8,7 +8,11 @@ import { CEONavbar } from '../components/sidebars/CEONavbar'
 import { TeamAmea_Navbar } from '../components/sidebars/TeamAmea_Navbar'
 import { io } from 'socket.io-client'
 
-const socket = io("http://localhost:5000")
+const simpleUrl = import.meta.env.SIMPLE_API_URL;
+const socket = io(`${simpleUrl}`)
+const apiUrl = import.meta.env.VITE_API_URL;
+
+
 
 const Chamber_I = ({ chamber }) => {
   const [message, setMessage] = useState("")
@@ -27,7 +31,7 @@ const Chamber_I = ({ chamber }) => {
     const storedUser = JSON.parse(localStorage.getItem("user"))
     setUser(storedUser)
 
-    fetch(`http://localhost:5000/api/messages/${chamber}`).then((res)=>res.json()).then((data)=>setChat(data))
+    fetch(`${apiUrl}/messages/${chamber}`).then((res)=>res.json()).then((data)=>setChat(data))
 
     socket.on("receiveMessage", (data) => {
       setChat((prev) => [...prev, data])
@@ -92,7 +96,7 @@ const sidebar = user
             >
               {!isSender && (
                 <div className='text-sm font-semibold flex justify-between mb-1'>
-               {/* <div><img src={`http://localhost:5000/${msg.avatar}`} alt="No" /></div> */} 
+          
                <div>{msg.sender}</div> 
                   
                   </div>

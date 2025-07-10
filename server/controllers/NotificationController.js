@@ -30,7 +30,7 @@ const createNotification = async(req, res)=>{
         <p>${newNotification.description}</p>
         ${
           newNotification.imageUrl
-            ? `<img src="http://localhost:5000${newNotification.imageUrl}" alt="Notification Image" style="max-width:100%;height:auto;"/>`
+            ? `<img src="${process.env.SIMPLE_API_URL}${newNotification.imageUrl}" alt="Notification Image" style="max-width:100%;height:auto;"/>`
             : ""
         }
       `,

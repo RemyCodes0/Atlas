@@ -33,11 +33,12 @@ import { Link } from "react-router-dom";
 export default function CurationsPage() {
   const [curations, setCurations] = useState([])
   const token = localStorage.getItem("authToken")
+const apiUrl = import.meta.env.VITE_API_URL;
 
 useEffect(()=>{
   const fetchCurations = async()=>{
     try{
-      const res = await axios.get("http://localhost:5000/api/curate/curation",{
+      const res = await axios.get(`${apiUrl}/curate/curation`,{
         headers: {
           Authorization: `Bearer ${token}`
         }

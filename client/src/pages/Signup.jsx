@@ -6,6 +6,8 @@ import logo from "../assets/logo-rm.png"
 import { Link } from 'react-router-dom';
 
 const Signup = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const [form, setForm] = useState({name: "", email:"", password:""});
   const navigate = useNavigate();
 
@@ -16,7 +18,7 @@ const Signup = () => {
   const handleSubmit = async(e)=>{
     e.preventDefault();
     try{
-      await axios.post("http://localhost:5000/api/auth/register", form);
+      await axios.post(`${apiUrl}/auth/register`, form);
       navigate("/login");
     }catch(err){
       alert("Registration failed"+ err.response?.data?.msg || err.message)

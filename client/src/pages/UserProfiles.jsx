@@ -45,6 +45,9 @@ function UserProfiles() {
   const [columnVisibility, setColumnVisibility] =
     React.useState({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const simpleUrl = import.meta.env.SIMPLE_API_URL;
+
 
 
   const columns = [
@@ -53,7 +56,7 @@ function UserProfiles() {
     accessorKey: "image",
     header: "Profile Picture",
     cell: ({ row }) => (
-      <img  className="h-10 w-10 rounded-full object-cover" src={`http://localhost:5000${row.original.imageUrl}`} alt="No images" />
+      <img  className="h-10 w-10 rounded-full object-cover" src={`${simpleUrl}${row.original.imageUrl}`} alt="No images" />
     ),
   },
   {
@@ -100,7 +103,7 @@ function UserProfiles() {
       // Define and immediately call an async function
       (async () => {
         try {
-          const res = await fetch(`http://localhost:5000/api/auth/updateUser/${row.original._id}`, {
+          const res = await fetch(`${apiUrl}/auth/updateUser/${row.original._id}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -170,7 +173,7 @@ function UserProfiles() {
 React.useEffect(()=>{
   const fetchUsers = async()=>{
     try{
-const res = await fetch("http://localhost:5000/api/auth/listUsers")
+const res = await fetch(`${apiUrl}/auth/listUsers`)
     const result = await res.json()
     setData(result.users|| [])
     }catch(err){

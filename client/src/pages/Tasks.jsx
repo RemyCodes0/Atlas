@@ -54,6 +54,7 @@ export default function Tasks() {
     assignedTo: "",
     dueDate: "",
   })
+  const simpleUrl = import.meta.env.SIMPLE_API_URL;
   const [selectedExplanation, setSelectedExplanation] = useState([])
   const [teamMembers, setTeamMembers] = useState([])
   const resetForm = () => {
@@ -66,6 +67,8 @@ export default function Tasks() {
   }
   const [user, setUser] = useState()
   const [loader, setLoader] = useState(false)
+  const apiUrl = import.meta.env.VITE_API_URL;
+
 
 
 useEffect(() => {
@@ -80,7 +83,7 @@ useEffect(() => {
     const fetchUsers = async()=>{
      
       try{
-        const res = await axios.get("http://localhost:5000/api/auth/listUsers",{
+        const res = await axios.get(`${apiUrl}/auth/listUsers`,{
           headers: {Authorization: `Bearer ${token}`}
         })
         setTeamMembers(res.data.users||[])
@@ -97,7 +100,7 @@ useEffect(() => {
 
       try{
         setLoader(true)
-        const res = await axios.get("http://localhost:5000/api/tasks/assignedTasks",{
+        const res = await axios.get(`${apiUrl}/tasks/assignedTasks`,{
         headers:{Authorization: `Bearer ${token}`}
       })
       setTasks(res.data)
@@ -115,7 +118,7 @@ useEffect(() => {
   const handleCreateTask = async() => {
     if (!formData.title || !formData.assignedTo || !formData.dueDate) return
     try{
- const res = await axios.post("http://localhost:5000/api/tasks/createTasks", formData, {
+ const res = await axios.post(`${apiUrl}/tasks/createTasks`, formData, {
       headers:{
         Authorization: `Bearer ${token}`
       }
@@ -157,7 +160,7 @@ const handleUpdateTask = async (e) => {
   try {
     
     const res = await axios.put(
-      `http://localhost:5000/api/tasks/updateTask/${editingTask._id}`,
+      `${apiUrl}/tasks/updateTask/${editingTask._id}`,
       formData,
       {
         headers: { Authorization: `Bearer ${token}` }
@@ -180,7 +183,7 @@ const handleUpdateTask = async (e) => {
   const handleDeleteTask = async(taskId) => {
     
     try{
-   const res = await axios.delete(`http://localhost:5000/api/tasks/deleteTask/${taskId}`,
+   const res = await axios.delete(`${apiUrl}/tasks/deleteTask/${taskId}`,
     {
       headers: {Authorization: `Bearer ${token}`}
     }
@@ -195,7 +198,7 @@ const handleUpdateTask = async (e) => {
 
  const handleStatusChange = async (taskId, newStatus) => {
   try {
-    await axios.put(`http://localhost:5000/api/tasks/updateTask/${taskId}`, {
+    await axios.put(`${apiUrl}/tasks/updateTask/${taskId}`, {
       status: newStatus,
     }, {
       headers: { Authorization: `Bearer ${token}` }
@@ -460,7 +463,7 @@ setFormData({ ...formData, dueDate: isoString })
   <p><strong>Content:</strong> {file.content}</p>
 ) : file.type === "image" ? (
   <img
-    src={`http://localhost:5000${file.content}`}
+    src={`${simpleUrl}${file.content}`}
     alt={file.content}
     className="max-w-full h-auto rounded"
   />
@@ -468,11 +471,11 @@ setFormData({ ...formData, dueDate: isoString })
   <video
     controls
     className="w-full max-h-[400px] rounded"
-    src={`http://localhost:5000${file.content}`}
+    src={`${simpleUrl}${file.content}`}
   />
 ) : (
   <a
-    href={`http://localhost:5000${file.content}`}
+    href={`${simpleUrl}${file.content}`}
     download
     className="text-blue-600 underline"
   >
@@ -481,7 +484,7 @@ setFormData({ ...formData, dueDate: isoString })
 )}
 
                 <a
-    href={`http://localhost:5000${file.content}`}
+    href={`${simpleUrl}${file.content}`}
     download
     className="text-blue-600 underline"
   >
