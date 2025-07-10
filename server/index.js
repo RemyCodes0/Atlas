@@ -18,9 +18,23 @@ connectDB()
 
 const app = express()
 const server = http.createServer(app)
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://atlas-amea.vercel.app'
+];
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true 
+}))
 app.use("/uploads", express.static(path.join(__dirname, 'uploads')))
+
 
 
 
