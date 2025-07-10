@@ -1,11 +1,5 @@
-# Atlas
+🚀 Features
+🔐 Hierarchical Structure
+Roles: CEO, President, Vice President, Members (by Chambers), and Peasants
 
-This is a test README to check Markdown rendering.
-
-## Features
-
-- Hierarchy system
-- Task management
-- Notifications
-
-Thank you!
+Role-based permissions an
