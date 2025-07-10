@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import axios from "axios"
 import { useNavigate } from 'react-router-dom'
-import logo from "../assets/logo-rm.png"
+import logo from "../assets/Logo-rm.png"
 import { Link } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 

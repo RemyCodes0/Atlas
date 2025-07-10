@@ -14,7 +14,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import logo from "../assets/logo-rm.png"
+import logo from "../assets/Logo-rm.png"
 
 export function VersionSwitcher() {
 
