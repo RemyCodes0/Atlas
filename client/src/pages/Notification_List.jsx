@@ -38,7 +38,7 @@ export default function UserNotifications() {
   const token = localStorage.getItem("authToken")
   const user = JSON.parse(localStorage.getItem("user"))
 const apiUrl = import.meta.env.VITE_API_URL;
-const simpleUrl = import.meta.env.SIMPLE_API_URL;
+const simpleUrl = import.meta.env.VITE_SIMPLE_API_URL;
     useEffect(() => {
     const fetchNotifications = async () => {
       try {

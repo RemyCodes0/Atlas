@@ -50,7 +50,7 @@ function Fire() {
     []
   )
   const apiUrl = import.meta.env.VITE_API_URL;
-const simpleUrl = import.meta.env.SIMPLE_API_URL;
+const simpleUrl = import.meta.env.VITE_SIMPLE_API_URL;
   const [columnVisibility, setColumnVisibility] =
     React.useState({})
   const [rowSelection, setRowSelection] = React.useState({})

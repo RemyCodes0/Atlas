@@ -54,7 +54,7 @@ export default function Tasks() {
     assignedTo: "",
     dueDate: "",
   })
-  const simpleUrl = import.meta.env.SIMPLE_API_URL;
+  const simpleUrl = import.meta.env.VITE_SIMPLE_API_URL;
   const [selectedExplanation, setSelectedExplanation] = useState([])
   const [teamMembers, setTeamMembers] = useState([])
   const resetForm = () => {

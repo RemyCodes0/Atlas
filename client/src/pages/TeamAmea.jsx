@@ -7,7 +7,7 @@ import { CEONavbar } from '../components/sidebars/CEONavbar'
 import { Chamber_I_Navbar } from '../components/sidebars/Chamber_I_Navbar'
 import { Chamber_II_Navbar } from '../components/sidebars/Chamber_II_Navbar'
 import { Chamber_III_Navbar } from '../components/sidebars/Chamber_III_Navbar'
-const simpleUrl = import.meta.env.SIMPLE_API_URL;
+const simpleUrl = import.meta.env.VITE_SIMPLE_API_URL;
 const socket = io(`${simpleUrl}`)
 
 const TeamAmea = ({ chamber }) => {

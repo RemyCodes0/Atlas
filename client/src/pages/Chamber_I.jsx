@@ -8,7 +8,7 @@ import { CEONavbar } from '../components/sidebars/CEONavbar'
 import { TeamAmea_Navbar } from '../components/sidebars/TeamAmea_Navbar'
 import { io } from 'socket.io-client'
 
-const simpleUrl = import.meta.env.SIMPLE_API_URL;
+const simpleUrl = import.meta.env.VITE_SIMPLE_API_URL;
 const socket = io(`${simpleUrl}`)
 const apiUrl = import.meta.env.VITE_API_URL;
 
