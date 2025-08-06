@@ -53,5 +53,18 @@ const getCurationById = async (req, res) => {
   }
 }
 
+const deleteCurationById = async(req,res) =>{
+    const id = req.params.id;
+       try{
+           const curation = await Curation.findByIdAndDelete(id)
+           if(!curation){
+            res.status(404).json({msg: "The curation doesn't existe"})
+           }
+           res.status(200).json({msg: "The curation was successfully deleted", curation: curation})
+       }catch(err){
+           res.status(500).json({msg: "A server error happened", error: err})
+       }
+}
 
-module.exports = { createCurations, getCurations, updateCuration, getCurationById}
+
+module.exports = { createCurations, getCurations, updateCuration, getCurationById, deleteCurationById}

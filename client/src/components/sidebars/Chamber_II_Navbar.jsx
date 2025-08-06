@@ -24,7 +24,7 @@ export function Chamber_II_Navbar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/chamber_i">💬Chat</a>
+                  <a href="/chamber_ii">💬Chat</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>

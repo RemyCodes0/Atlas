@@ -1,14 +1,3 @@
-// import React from 'react'
-
-
-// const CurationSystem = () => {
-
-//     <div>CurationSystem</div>
-//     </DashboardLayout>
-//   )
-// }
-
-// export default CurationSystem
 "use client"
 
 import { Button } from "@/components/ui/button"
@@ -26,9 +15,6 @@ import { CEONavbar } from '../components/sidebars/CEONavbar'
 import { TeamAmea_Navbar } from '../components/sidebars/TeamAmea_Navbar'
 import axios from "axios"
 import { Link } from "react-router-dom";
-
-
-
 
 export default function CurationsPage() {
   const [curations, setCurations] = useState([])
@@ -57,10 +43,23 @@ useEffect(()=>{
   fetchCurations()
 }, [])
 
-  const deleteCuration = (id) => {
-    const updatedCurations = curations.filter((c) => c.id !== id)
+  const deleteCuration = async(id) => {
+    // const updatedCurations = curations.filter((c) => c.id !== id)
+    // setCurations(updatedCurations)
+    // localStorage.setItem("curations", JSON.stringify(updatedCurations))
+    try{
+      console.log(id)
+      const res = await axios.delete(`${apiUrl}/curate/curation/${id}`,{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+    const updatedCurations = curations.filter((c) => c._id !== id)
     setCurations(updatedCurations)
-    localStorage.setItem("curations", JSON.stringify(updatedCurations))
+    }catch(err){
+      console.error("An error occured", err)
+      alert("an error has happened"+ err)
+    }
   }
 
   const stripHtml = (html) => {
