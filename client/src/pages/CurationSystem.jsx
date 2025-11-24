@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Plus, Edit, Trash2, User, Clock } from "lucide-react"
+import { Plus, Edit, Trash2, User, Clock, Loader, Loader2 } from "lucide-react"
 import { useState, useEffect } from "react"
 import { formatDistanceToNow } from "date-fns"
 import DashboardLayout from '../layout/DashboardLayout'
@@ -18,26 +18,32 @@ import { Link } from "react-router-dom";
 
 export default function CurationsPage() {
   const [curations, setCurations] = useState([])
+  const [loader, setLoader] = useState(false)
   const token = localStorage.getItem("authToken")
 const apiUrl = import.meta.env.VITE_API_URL;
 
 useEffect(()=>{
   const fetchCurations = async()=>{
+    setLoader(true)
     try{
       const res = await axios.get(`${apiUrl}/curate/curation`,{
         headers: {
           Authorization: `Bearer ${token}`
+          
         }
       })
       const parsed = res.data.curation.map((c)=>({
         ...c,
         createdAt: new Date(c.createdAt),
         updatedAt: new Date(c.updatedAt)
+       
       }))
       setCurations(parsed)
+      setLoader(false)
     }catch(err){
       console.log("An error occured: ", err)
       alert("There was an error with the server"+ err)
+      setLoader(false)
     }
   }
   fetchCurations()
@@ -83,7 +89,14 @@ const sidebar = user
   : <TeamAmea_Navbar />
   return (
     <DashboardLayout sidebar={sidebar}>
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    { loader ?
+    <div className="min-h-screen flex ">
+<div className="mx-auto flex justify-between items-center">
+<Loader2 className="h-20 w-20 animate-spin text-primary"/>
+    </div>
+    </div>
+    :
+     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Curations</h1>
@@ -126,12 +139,15 @@ const sidebar = user
                     </CardDescription>
                   </div>
                   <div className="flex gap-2 ml-4">
-                    <Link to={`/editor/${curation._id}`}>
-                      <Button variant="outline" size="sm" className="gap-2 bg-transparent">
+                    {/* <Link to={`/editor/${curation._id}`}> */}
+                    <a href={`/editor/${curation._id}`}>
+                    <Button variant="outline" size="sm" className="gap-2 bg-transparent">
                         <Edit className="w-4 h-4" />
                         Edit
                       </Button>
-                    </Link>
+                    </a>
+                      
+                    {/* </Link> */}
                     <Button
                       variant="outline"
                       size="sm"
@@ -166,6 +182,9 @@ const sidebar = user
         </div>
       )}
     </div>
+
+    }
+   
     </DashboardLayout>
   )
 }

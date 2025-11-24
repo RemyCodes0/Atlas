@@ -13,6 +13,9 @@ import {
 import { VersionSwitcher } from "../version-switcher";
 
 export function Chamber_III_Navbar() {
+    const user = JSON.parse(localStorage.getItem("user"))
+  const role = user.role;
+  const canAccessTasks = role.includes("President") || role.includes("Vice")
   return (
     <Sidebar>
       <SidebarHeader>
@@ -42,6 +45,16 @@ export function Chamber_III_Navbar() {
                   <a href="/task-list">📑Tasks</a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+                    {
+  canAccessTasks && (
+    
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a href="/tasks">✍️Tasks Management</a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+  )
+}
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <a href="/notification_list">💡Notifications</a>

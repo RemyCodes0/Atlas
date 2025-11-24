@@ -122,7 +122,7 @@ useEffect(() => {
       headers:{
         Authorization: `Bearer ${token}`
       }
-    })
+    }) 
     setTasks([...tasks, res.data])
     
     resetForm()
@@ -142,6 +142,9 @@ const handleEditTask = (task) => {
     dueDate: task.dueDate|| "",
   })
 }
+
+
+
 
 const formatDateForInput = (isoDate) => {
   if (!isoDate) return ""
@@ -235,6 +238,7 @@ const handleUpdateTask = async (e) => {
   const isOverdue = (dueDate) => {
     return new Date(dueDate) < new Date() && new Date(dueDate).toDateString() !== new Date().toDateString()
   }
+
 
    const roleToSidebar = {
     "Peasant": <Peasant_Navbar />,
@@ -423,8 +427,11 @@ setFormData({ ...formData, dueDate: isoString })
 
                             </AvatarFallback>
                           </Avatar>
-                          <span className="text-sm text-muted-foreground">{task.assignedTo?.name}</span>
+                          <span className="text-sm text-muted-foreground">{ assignedMember?.name}</span>
+
+
                         </div>
+                        { task.assignedTo.name}
                       </div>
                       <div className="flex items-center gap-2">
                         <Clock className="w-4 h-4 text-muted-foreground" />

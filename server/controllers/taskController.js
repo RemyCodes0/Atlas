@@ -7,7 +7,7 @@ const createTask=async(req,res)=>{
             return res.status(400).json({msg: "Title and assigned to are required"})
 
         }
-        if(!["CEO", "Vice", "President"].includes(req.user.role)){
+        if(!["CEO", "Vice President-I", "President-I","Vice President-II", "Vice President-III", "President-II", "President-III"].includes(req.user.role)){
             return res.status(403).json({msg: "Unauthorized to assign tasks"})
         }
         const task = new Task({

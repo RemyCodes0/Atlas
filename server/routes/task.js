@@ -11,7 +11,7 @@ router.get("/my-tasks", authMiddleware, getTask )
 router.get("/assignedTasks", authMiddleware, getAssignedTasks)
 router.delete("/deleteTask/:id", authMiddleware, deleteTask)
 router.put("/updateTask/:id", authMiddleware, updateTask)
-router.patch("/:id/status", authMiddleware, statusUpdate)
+// router.patch("/:id/status", authMiddleware, statusUpdate)
 router.put("/:id/reject", authMiddleware, rejectTask)
 
 
@@ -42,9 +42,14 @@ router.put(
       const task = await Task.findById(taskId);
       if (!task) return res.status(404).json({ msg: "Task not found" });
 
-      if (task.assignedTo.toString() !== req.user._id.toString()) {
-        return res.status(403).json({ msg: "Not Authorized" });
-      }
+      if (
+  task.assignedTo.toString() !== req.user._id.toString() &&
+  !req.user.role.includes("President") &&
+  !req.user.role.includes("Vice President")
+) {
+  return res.status(403).json({ msg: "Not Authorized" });
+}
+
 
       // Update status
       task.status = status || task.status;
